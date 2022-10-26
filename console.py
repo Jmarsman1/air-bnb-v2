@@ -12,24 +12,21 @@ from models.amenity import Amenity
 from models.review import Review
 import shlex
 
+classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
+               'State': State, 'City': City, 'Amenity': Amenity,
+               'Review': Review}
+ dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
+
+    types = {'number_rooms': int, 'number_bathrooms': int,
+             'max_guest': int, 'price_by_night': int,
+             'latitude': float, 'longitude': float}
+
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
-
-    classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
-    dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
-    types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -126,23 +123,23 @@ class HBNBCommand(cmd.Cmd):
                     value = shlex.split(value)[0].replace('_', ' ')
                 else:
                     try:
-                        value = float(value)
+                        value = int(value)
                     except:
                         try:
-                            value = int(value)
+                            value = float(value)
                         except:
                             continue
             new_dict[key] = value
         return new_dict
 
-    def do_create(self, args):
+    def do_create(self, arg):
         """ Create an object of any class"""
-        args = args.split()
+        args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
             return False
         if args[0] in classes:
-            new_dict = self._key_value_parser([1:])
+            new_dict = self._key_value_parser(args[1:])
             new_instance = classes[args[0]](**new_dict)
         else:
             print("** class doesn't exist **")
