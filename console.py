@@ -12,21 +12,25 @@ from models.amenity import Amenity
 from models.review import Review
 import shlex
 
-classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
+    classes = {
+               'BaseModel': BaseModel, 'User': User, 'Place': Place,
                'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review}
- dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
-
-    types = {'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float}
-
+               'Review': Review
+              }
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
+
+    dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
+
+    types = {
+             'number_rooms': int, 'number_bathrooms': int,
+             'max_guest': int, 'price_by_night': int,
+             'latitude': float, 'longitude': float
+            }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -116,20 +120,23 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        arg = args.split
+        
+        arg = args.split()
         class_name = arg[0]
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
         
         new_instance = HBNBCommand.classes[class_name]()
-        parameters = arglist[1:]
+
+        parameters = arg[1:]
+
         for par in parameters:
-            attr = par.split('=', 1)
-            if attr[1] == "" or attr[2] == "":
+            attr = par.split("=", 1)
+            if attr[0] == "" or attr[1] == "":
                 pass
             key = attr[0]
-            value = attr [2]
+            value = attr [1]
 
             if value[0] == '"':
                 value = value[1:-1]
