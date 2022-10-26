@@ -124,10 +124,14 @@ class HBNBCommand(cmd.Cmd):
                 value = key_value[1]
                 if value[0] == value[-1] == '"':
                     value = shlex.split(value)[0].replace('_', ' ')
-                elif "." in value:
-                    value = float(value)
                 else:
-                    value = int(value)
+                    try:
+                        value = float(value)
+                    except:
+                        try:
+                            value = int(value)
+                        except:
+                            continue
             new_dict[key] = value
         return new_dict
 
