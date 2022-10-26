@@ -111,41 +111,40 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def _key_value_parser(self, args):
-        """creates a dictionary from a list of strings"""
-        new_dict = {}
-        for arg in args:
-            if "=" in arg:
-                kvp = arg.split('=', 1)
-                key = kvp[0]
-                value = kvp[1]
-                if value[0] == value[-1] == '"':
-                    value = shlex.split(value)[0].replace('_', ' ')
-                else:
-                    try:
-                        value = int(value)
-                    except:
-                        try:
-                            value = float(value)
-                        except:
-                            continue
-                new_dict[key] = value
-        return new_dict
-
-    def do_create(self, arg):
+    def do_create(self, args):
         """Creates a new instance of a class"""
-        args = arg.split()
-        if len(args) == 0:
+        if not args:
             print("** class name missing **")
-            return False
-        if args[0] in classes:
-            new_dict = self._key_value_parser(args[1:])
-            instance = classes[args[0]](**new_dict)
-        else:
+            return
+        arg = args.split
+        class_name = arg[0]
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
-            return False
-        print(instance.id)
-        instance.save()
+            return
+        
+        new_instance = HBNBCommand.classes[class_name]()
+        parameters = arglist[1:]
+        for par in parameters:
+            attr = par.split('=', 1)
+            if attr[1] == "" or attr[2] == "":
+                pass
+            key = attr[0]
+            value = attr [2]
+
+            if value[0] == '"':
+                value = value[1:-1]
+                value = value.replace("_", " ")
+            elif "." in value:
+                value = float(value)
+            else:
+                value = int(value)
+            if hasattr(new_instance, key):
+                setattr(new_instance, key, value)
+
+        storage.save()
+        print(new_instance.id)
+        storage.save()
+
 
     def help_create(self):
         """ Help information for the create method """
