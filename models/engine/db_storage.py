@@ -1,25 +1,26 @@
 #!/usr/bin/python3
 """Class of database storage"""
-
+from sqlalchemy import MetaData
+from sqlalchemy.orm import Session
+import os
 
 class DBStorage:
-    import os
-    from sqlalchemy import MetaData
-    from sqlalchemy.orm import Session
     meta = MetaData()
-    database_url = os.environ.get('HBNB_MYSQL_DB', )
-    sql_pwd = os.environ.get('HBNB_MYSQL_PWD', )
-    sql_usr = os.environ.get('HBNB_MYSQL_USER', )
-    sql_host = os.environ.get('HBNB_MYSQL_HOST', 'localhost')
-    env = os.environ.get('HBNB_ENV')
     
     """Database storage class"""
     __engine = None
     __session = None
     def __init__(self):
         """Instatntiates db storage"""
+        from sqlalchemy import create_engine
+        import sys
+        database_url = os.getenv('HBNB_MYSQL_DB')
+        sql_pwd = os.getenv('HBNB_MYSQL_PWD')
+        sql_usr = os.getenv('HBNB_MYSQL_USER')
+        sql_host = os.getenv('HBNB_MYSQL_HOST')
+        env = os.getenv('HBNB_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'\
-            .format(sys.argv[1], sys.argv[2], sys.argv[3]), pool_pre_ping=True)
+            .format(sql_usr, sql_pwd, database_url), pool_pre_ping=True)
         if env == "test":
             for tbl in reversed(meta.sorted_tables):
                 engine.execute(tbl.delete())
