@@ -10,4 +10,3 @@ class City(BaseModel, Base):
     __tablename__ = "cities"
     name = Column(String(128), nullable=False)
     state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
-    id = sqlalchemy.orm.column_property(Column(Integer, primary_key=True))

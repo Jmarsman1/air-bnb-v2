@@ -9,5 +9,3 @@ class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    id = sqlalchemy.orm.column_property(Column(Integer, primary_key=True, nullable=False))
-    
