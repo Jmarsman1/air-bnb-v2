@@ -5,8 +5,15 @@ import sqlalchemy
 from models.engine.file_storage import FileStorage
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+import os
 
-Base = declarative_base()
+
+env_var = os.getenv('HBNB_TYPE_STORAGE')
+
+if env_var == 'db':
+    Base = declarative_base()
+else:
+    pass
 
 
 class BaseModel:
