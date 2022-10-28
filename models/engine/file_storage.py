@@ -19,7 +19,7 @@ class FileStorage:
                     filteredobjs[key] = value
             return filteredobjs
         else:
-            return FileStorage.__objects
+            return storage.all().items()
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
