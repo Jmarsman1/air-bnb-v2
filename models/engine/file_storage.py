@@ -67,3 +67,9 @@ class FileStorage:
             if f'{obj.__class__.__name__}.{obj.id}' in self.__objects:
                 del self.__objects[f'{obj.__class__.__name__}.{obj.id}']
                 self.save()
+
+    def close(self):
+        """
+        does something
+        """
+        reload()
