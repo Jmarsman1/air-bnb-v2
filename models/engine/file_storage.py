@@ -72,4 +72,4 @@ class FileStorage:
         """
         does something
         """
-        reload()
+        self.reload()
