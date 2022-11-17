@@ -64,7 +64,7 @@ class FileStorage:
         Deletes an object from the dictionary, if a valid one is supplied
         """
         if obj is not None:
-            if f'{obj.__class__.__name__}.{obj.id}' in self.__objects:
+            if '{}.{}'.format(obj.__class__.name__, obj.id) in self.__objects:
                 del self.__objects['{}.{}'.format(obj.__class__.__name__,
                                                   obj.id)]
                 self.save()
