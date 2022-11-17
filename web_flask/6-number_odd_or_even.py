@@ -50,5 +50,6 @@ def hbnb_odd_even(n):
     '''prints different html if n is odd or even'''
     return render_template('6-number_odd_or_even.html', n=n)
 
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

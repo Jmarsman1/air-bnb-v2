@@ -2,7 +2,6 @@
 """script starts Flask web application and defines route '/'"""
 
 from flask import Flask
-# create Flask application instance, passing it the name of the current module
 app = Flask(__name__)
 
 
@@ -19,6 +18,5 @@ def hbnb():
     return 'HBNB'
 
 
-# start the flask application listening on host address and ports specificied
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
