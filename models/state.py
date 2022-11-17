@@ -15,11 +15,11 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        #define relationship between city and state
+        """something"""
         cities = relationship('City', backref='state',
                               cascade='all, delete, delete-orphan')
     else:
-        @property  #prepare a getter attr to define rltshp of city & state
+        @property
         def cities(self):
             """returns list of City instances with current state.id"""
             citylist = []
