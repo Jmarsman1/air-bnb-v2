@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 import models
 from models import storage
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
@@ -18,7 +19,7 @@ class State(BaseModel, Base):
         cities = relationship('City', backref='state',
                               cascade='all, delete, delete-orphan')
     else:
-        @property  # prepare a getter attr to define rltshp of city & state
+        @property  #prepare a getter attr to define rltshp of city & state
         def cities(self):
             """returns list of City instances with current state.id"""
             citylist = []
