@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """ State Module for HBNB project """
 from models.base_model import BaseModel, Base
@@ -15,7 +14,7 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        # define relationship between city and state
+        #define relationship between city and state
         cities = relationship('City', backref='state',
                               cascade='all, delete, delete-orphan')
     else:
