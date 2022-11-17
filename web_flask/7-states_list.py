@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-something
+thingy
 """
 from flask import Flask, render_template
 app = Flask(__name__)
@@ -9,14 +9,18 @@ app.url_map.strict_slashes = False
 
 @app.teardown_appcontext
 def teardown(content):
-    """ call close """
+    """
+    close
+    """
     import models
     models.storage.close()
 
 
 @app.route('/states_list')
 def states_list():
-    """ print list of states in html page """
+    """
+    print list of states
+    """
     import models
     states = models.storage.all(models.state.State)
     return render_template("7-states_list.html", states=states)
