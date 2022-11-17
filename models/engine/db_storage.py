@@ -28,11 +28,11 @@ class DBStorage:
 
     def __init__(self):
         """Instantiates a new model"""
-        host = os.getenv('HBNB_MYSQL_HOST')
-        user = os.getenv('HBNB_MYSQL_USER')
-        passwd = os.getenv('HBNB_MYSQL_PWD')
-        db = os.getenv('HBNB_MYSQL_DB')
-        env = os.getenv('HBNB_MYSQL_ENV')
+        host = os.getenv("HBNB_MYSQL_HOST")
+        user = os.getenv("HBNB_MYSQL_USER")
+        passwd = os.getenv("HBNB_MYSQL_PWD")
+        db = os.getenv("HBNB_MYSQL_DB")
+        env = os.getenv("HBNB_MYSQL_ENV")
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
             user, passwd, host, db),
                                       pool_pre_ping=True)
@@ -48,7 +48,7 @@ class DBStorage:
         else:
             result = self.__session.query(cls).all()
         for obj in result:
-            sql_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+            sql_dict['{}.{}'.format(type(obj).__name__, obj.id)] = obj
         return sql_dict
 
     def new(self, obj):
