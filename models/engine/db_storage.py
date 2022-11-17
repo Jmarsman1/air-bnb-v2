@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage db storage for hbnb clone"""
-import os
+from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
@@ -28,11 +28,11 @@ class DBStorage:
 
     def __init__(self):
         """Instantiates a new model"""
-        host = os.getenv('HBNB_MYSQL_HOST')
-        user = os.getenv('HBNB_MYSQL_USER')
-        passwd = os.getenv('HBNB_MYSQL_PWD')
-        db = os.getenv('HBNB_MYSQL_DB')
-        env = os.getenv('HBNB_MYSQL_ENV')
+        host = getenv('HBNB_MYSQL_HOST')
+        user = getenv('HBNB_MYSQL_USER')
+        passwd = getenv('HBNB_MYSQL_PWD')
+        db = getenv('HBNB_MYSQL_DB')
+        env = getenv('HBNB_MYSQL_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
             user, passwd, host, db),
                                       pool_pre_ping=True)
