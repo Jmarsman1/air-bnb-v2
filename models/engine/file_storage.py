@@ -65,7 +65,8 @@ class FileStorage:
         """
         if obj is not None:
             if f'{obj.__class__.__name__}.{obj.id}' in self.__objects:
-                del self.__objects['{}.{}'.format(obj.__class__.__name__, obj.id)]
+                del self.__objects['{}.{}'.format(obj.__class__.__name__,
+                                                  obj.id)]
                 self.save()
 
     def close(self):
