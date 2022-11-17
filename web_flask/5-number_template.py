@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-'''flask application setup'''
+"""
+flask application setup
+"""
 
 from flask import Flask, render_template
 
@@ -8,19 +10,25 @@ app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
 def hbnb():
-    '''prints hello HBHB'''
+    """
+    prints hello HBHB
+    """
     return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb_hbnb():
-    '''prints HBHB'''
+    """
+    prints HBHB
+    """
     return "HBNB"
 
 
 @app.route("/c/<text>", strict_slashes=False)
 def hbnb_c(text):
-    '''prints text'''
+    """
+    prints c text
+    """
     text = text.replace('_', ' ')
     return 'C {}'.format(text)
 
@@ -28,20 +36,26 @@ def hbnb_c(text):
 @app.route("/python", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def hbnb_python(text='is cool'):
-    '''prints text'''
+    """
+    prints python <text>
+    """
     text = text.replace('_', ' ')
     return 'Python {}'.format(text)
 
 
 @app.route("/number/<int:n>", strict_slashes=False)
 def hbnb_number(n):
-    '''prints the number if its a number'''
+    """
+    checks n type, returns
+    """
     return '{} is a number'.format(n)
 
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def hbnb_number_template(n):
-    '''prints out html with given number'''
+    """
+    displays html if n is number
+    """
     return render_template('5-number.html', n=n)
 
 

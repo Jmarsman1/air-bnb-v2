@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""script starts Flask web application and defines route '/'"""
+"""
+script starts Flask web application and defines route '/'
+"""
 
 from flask import Flask
 app = Flask(__name__)
@@ -8,13 +10,17 @@ app = Flask(__name__)
 # decorator turns a python function into a Flask view function
 @app.route('/', strict_slashes=False)
 def hello():
-    """function responds to web requests to the main URL"""
+    """
+    function responds to web requests to the main URL
+    """
     return 'Hello HBNB!'
 
 
 @app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    """defining behavior for /hbnb url"""
+    """
+    defining behavior for /hbnb url
+    """
     return 'HBNB'
 
 
