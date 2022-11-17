@@ -1,55 +1,54 @@
 #!/usr/bin/python3
-"""This module defines a class to manage db storage for hbnb clone"""
-import os
+""" This module defines a class to manage database storage for airbnb clone """
+
+from os import getenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base
+from sqlalchemy.orm import scoped_session, sessionmaker
+from models.base_model import BaseModel, Base
 from models.user import User
-from models.place import Place
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
+from models.place import Place
 from models.review import Review
-
-classes = {
-    'User': User,
-    'Place': Place,
-    'State': State,
-    'City': City,
-    'Amenity': Amenity,
-    'Review': Review
-}
 
 
 class DBStorage:
-    """This class manages storage of hbnb models in a SQL database"""
+    """ blank """
     __engine = None
     __session = None
 
     def __init__(self):
-        """Instantiates a new model"""
-        host = os.getenv("HBNB_MYSQL_HOST")
-        user = os.getenv("HBNB_MYSQL_USER")
-        passwd = os.getenv("HBNB_MYSQL_PWD")
-        db = os.getenv("HBNB_MYSQL_DB")
-        env = os.getenv("HBNB_MYSQL_ENV")
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(
-            user, passwd, host, db),
+        """
+        Initalize DB Storage object
+        """
+        user = getenv("HBNB_MYSQL_USER")
+        pwd = getenv("HBNB_MYSQL_PWD")
+        host = getenv("HBNB_MYSQL_HOST")
+        db = getenv("HBNB_MYSQL_DB")
+        env = getenv("HBNB_ENV")
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+                                      format(user, pwd, host, db),
                                       pool_pre_ping=True)
         if env == "test":
-            Base.metadata.drop_all(bind=self.__engine)
+            Base.metadata.dropall(self.__engine)
 
-    def all(self, cls=None):
-        """query on the current database session all objects"""
-        sql_dict = {}
-        if cls is None:
-            result = self.__session.query(State, City, User, Place, Review,
-                                          Amenity).all()
+    def all(self, given_cls=None):
+        """
+        Query on current database session objects depending on class name
+        """
+        query_dict = {}
+        if given_cls is not None:
+            for obj in self.__session.query(given_cls).all():
+                name_and_id = "{}.{}".format(type(obj).__name__, obj.id)
+                query_dict.update({"{}".format(name_and_id): obj})
+
         else:
-            result = self.__session.query(cls).all()
-        for obj in result:
-            sql_dict['{}.{}'.format(type(obj).__name__, obj.id)] = obj
-        return sql_dict
+            for cls_name in classes:
+                for obj in self.__session.query(cls_name).all():
+                    name_and_id = "{}.{}".format(type(obj).__name__, obj.id)
+                    query_dict.update({"{}".format(name_and_id): obj})
+        return query_dict
 
     def new(self, obj):
         """add the object to the current database session """
